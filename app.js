@@ -13,6 +13,12 @@ let h3 = document.querySelector("h3");
 
 // Available button colors
 let btns = ["yellow", "red", "green", "purple"];
+let sounds = {
+    "yellow": new Audio("sounds/yellow.wav"),
+    "red": new Audio("sounds/red.wav"),
+    "green": new Audio("sounds/green.wav"),
+    "purple": new Audio("sounds/purple.wav")
+};
 
 // Event listener to start the game on keypress
 document.addEventListener("keypress", function () {
@@ -23,8 +29,14 @@ document.addEventListener("keypress", function () {
 });
 
 // Function to flash a button when clicked or part of the sequence
-function btnFlash(btn) {
+function btnFlash(btn, color) {
     btn.classList.add("flash");
+    try {
+        sounds[color].currentTime = 0;  // Reset sound to start
+        sounds[color].play();
+    } catch (error) {
+        console.error(`Failed to play sound for ${color}:`, error);
+    }
     setTimeout(function () {
         btn.classList.remove("flash");
     }, 200);
@@ -53,7 +65,7 @@ function levelUp() {
     // Add the random color to the game sequence and flash the button
     gameSequence.push(randCol);
     console.log(gameSequence);
-    btnFlash(randBtn);
+    btnFlash(randBtn, randCol);
 }
 
 // Add click event listeners to all buttons
@@ -64,10 +76,10 @@ for (let btn of allBtns) {
 
 // Function to handle player's button press
 function btnPress() {
-    btnFlash(this);
+    let userChoice = this.getAttribute("id");
+    btnFlash(this, userChoice);
 
     if (gameStarted) {
-        let userChoice = this.getAttribute("id");
         playerSequence.push(userChoice);
 
         // Check the player's choice against the game sequence
