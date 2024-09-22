@@ -29,6 +29,7 @@ First, open your terminal or IDE and navigate to the folder where you want to cl
 Run the following command:
 ```bash
 git clone https://github.com/git-raghav/Simon-Says-Game.git
+```	
 
 ### Step 2: Open the Game
 Once the repository is cloned, open the `index.html` file in your browser.
